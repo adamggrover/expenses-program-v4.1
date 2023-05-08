@@ -96,7 +96,7 @@ internal class ExpenseClaim
     // Getter method for the total expenses field
     public double GetTotalExpenses()
     {
-        return totalExpenses;
+        return Math.Round(totalExpenses,2);
     }
 
     //---------Total Travel Cost-----------------------------//
@@ -112,7 +112,7 @@ internal class ExpenseClaim
     // Getter method for the total expenses field
     public double GetTotalTravelCost()
     {
-        return totalTravelCost;
+        return Math.Round(totalTravelCost,2);
     }
 
     //---------Total Expense Claim-----------------------------//
@@ -128,7 +128,7 @@ internal class ExpenseClaim
     // Getter method for the total expenses field
     public double GetTotalExpenseClaim()
     {
-        return totalExpenseClaim;
+        return Math.Round(totalExpenseClaim, 2);
     }
 
     //---------Total Non Refundable-----------------------------//
@@ -177,12 +177,12 @@ internal class ExpenseClaim
         
 
         details.Add("\nExpense Claim #" + claimId + " Totals\n");
-        details.Add("\nTotal travel costs: £" + totalTravelCost);
-        details.Add("Total cost of other expenses: £" + totalExpenses);
-        details.Add("Total cost of expense claim: £" + totalExpenseClaim);
-        details.Add("Total amount that can be reclaimed by company: £" + totalExpenseClaim * 0.2);
-        details.Add("Total non refundable amount: £" + totalNonRefundable);
-        details.Add("Total payment due to employee £" + totalEmployeePayment);
+        details.Add("\nTotal travel costs: £" + GetTotalTravelCost());
+        details.Add("Total cost of other expenses: £" + GetTotalExpenses());
+        details.Add("Total cost of expense claim: £" + GetTotalExpenseClaim());
+        details.Add("Total amount that can be reclaimed by company: £" + GetTotalExpenseClaim() * 0.2);
+        details.Add("Total non refundable amount: £" + GetTotalNonRefundable());
+        details.Add("Total payment due to employee £" + GetTotalEmployeePayment());
 
         // details.Add("Non-refundable amount: " + nonRefundable);
 

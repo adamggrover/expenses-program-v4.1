@@ -74,7 +74,7 @@ internal class Journey
     {
         if (expenseCost > 50)
         {
-            this.nonRefundable = expenseCost - maxRefundable;
+            this.nonRefundable = Math.Round(expenseCost - maxRefundable,2);
 
         }
 
@@ -148,7 +148,7 @@ internal class Journey
     public double GetTotalCost()
     {
         // Calculate the total cost by adding the expense cost and travel cost and then subtracting the non-refundable amount
-        double totalCost = expenseCost + travelCost;
+        double totalCost = Math.Round(expenseCost + travelCost,2);
 
         return totalCost;
     }
