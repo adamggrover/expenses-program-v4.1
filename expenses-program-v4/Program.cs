@@ -10,17 +10,16 @@ class Program
 
         List<User> users = new List<User>();
 
+        int currentUserId = 0;
+
 
 
         Console.Write("\n---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
 
-        
-
-
-
-        // Loop through the list of users to check if the login details match
+        // Initialise variable 
         bool isLoggedIn = false;
 
+        // Loop through all the time the user isn't logged in
         while (!isLoggedIn)
         {
             Console.Write("\nPlease make a selection:\n\n");
@@ -86,6 +85,9 @@ class Program
                 users.Add(newUser);
 
                 Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
+
+                // Assign current user id to variable
+                currentUserId = newUser.GetUserId();
             }
 
             // Prompt the user to enter their username and password
@@ -97,11 +99,15 @@ class Program
             Console.Write("Password: ");
             string password = Console.ReadLine();
 
+            // Loop through existing users to check for a match
             foreach (User user in users)
             {
                 if (user.GetUsername() == username && user.GetPassword() == password)
                 {
                     isLoggedIn = true;
+
+                    // Assign current user id to variable
+                    currentUserId = user.GetUserId();
 
                     if (user.IsAdmin())
                     {
@@ -123,6 +129,14 @@ class Program
 
         }
 
+
+        if (users[currentUserId - 1].IsAdmin())
+        {
+            Console.Clear();
+            Console.WriteLine("---------------Admin Menu------------------");
+        }
+
+     
 
 
         // Create a list of the ExpenseClaim objects
