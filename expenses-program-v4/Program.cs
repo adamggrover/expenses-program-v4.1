@@ -5,7 +5,125 @@ using System.Collections.Generic;
 class Program
 {
     static void Main(string[] args)
+
     {
+
+        List<User> users = new List<User>();
+
+
+
+        Console.Write("\n---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
+
+        
+
+
+
+        // Loop through the list of users to check if the login details match
+        bool isLoggedIn = false;
+
+        while (!isLoggedIn)
+        {
+            Console.Write("\nPlease make a selection:\n\n");
+
+            // Ask the user to select the claim type from the available choices
+
+            for (int i = 0; i < User.loginChoices.Length; i++)
+            {
+                Console.WriteLine(i + 1 + ") " + User.loginChoices[i]);
+
+            }
+
+            string loginChoice = "";
+
+            bool validInput = false;
+
+
+            while (validInput == false)
+            {
+
+                try
+                {
+                    // Parse user selected index to local variable
+                    int loginChoiceIndex = int.Parse(Console.ReadLine()) - 1;
+
+                    // Assign user selected claim type to expense claim object field
+                    loginChoice = User.loginChoices[loginChoiceIndex];
+
+                    validInput = true;
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid selection. Please try again");
+
+                }
+
+
+            }
+
+            // Add some sample users to the list
+            users.Add(new User("employee1", "password1", false));
+            users.Add(new User("admin1", "password2", true));
+
+
+
+            if (loginChoice == "Create new User")
+            {
+                Console.Clear();
+                Console.WriteLine("-------------Create New User---------------\n");
+                // Prompt the user to enter details for the new user
+                Console.Write("Enter a username: ");
+                string newUsername = Console.ReadLine();
+
+                Console.Write("Enter a password: ");
+                string newPassword = Console.ReadLine();
+
+                Console.Write("Is this user an admin (y/n)? ");
+                bool isAdmin = Console.ReadLine().ToLower() == "y";
+
+                // Create a new User object and add it to the list
+                User newUser = new User(newUsername, newPassword, isAdmin);
+                users.Add(newUser);
+
+                Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
+            }
+
+            // Prompt the user to enter their username and password
+            Console.Clear();
+            Console.WriteLine("-------------Login---------------\n");
+            Console.Write("Username: ");
+            string username = Console.ReadLine();
+
+            Console.Write("Password: ");
+            string password = Console.ReadLine();
+
+            foreach (User user in users)
+            {
+                if (user.GetUsername() == username && user.GetPassword() == password)
+                {
+                    isLoggedIn = true;
+
+                    if (user.IsAdmin())
+                    {
+                        Console.WriteLine("Login successful (admin)");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Login successful (employee)");
+                    }
+
+                    break;
+                }
+            }
+
+            if (!isLoggedIn)
+            {
+                Console.WriteLine("Login failed\n");
+            }
+
+        }
+
+
 
         // Create a list of the ExpenseClaim objects
         List<ExpenseClaim> Expenseclaims = new List<ExpenseClaim>();
