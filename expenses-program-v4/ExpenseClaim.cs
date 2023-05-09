@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 
 
@@ -28,7 +29,7 @@ internal class ExpenseClaim
     {
         ++claimCount;
         this.claimId = claimCount;
-        
+
 
     }
 
@@ -96,7 +97,7 @@ internal class ExpenseClaim
     // Getter method for the total expenses field
     public double GetTotalExpenses()
     {
-        return Math.Round(totalExpenses,2);
+        return Math.Round(totalExpenses, 2);
     }
 
     //---------Total Travel Cost-----------------------------//
@@ -112,7 +113,7 @@ internal class ExpenseClaim
     // Getter method for the total expenses field
     public double GetTotalTravelCost()
     {
-        return Math.Round(totalTravelCost,2);
+        return Math.Round(totalTravelCost, 2);
     }
 
     //---------Total Expense Claim-----------------------------//
@@ -174,7 +175,7 @@ internal class ExpenseClaim
         List<string> details = new List<string>();
 
         // Add the claim type, expense cost, travel cost, non-refundable amount, and total cost to the list of receipt details
-        
+
 
         details.Add("\nExpense Claim #" + claimId + " Totals\n");
         details.Add("\nTotal travel costs: £" + GetTotalTravelCost());
@@ -192,4 +193,3 @@ internal class ExpenseClaim
     }
 
 }
-

@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
 
 
 class Program
+
 {
+
+
+
     static void Main(string[] args)
 
     {
+
+
 
         List<User> users = new List<User>();
 
@@ -250,6 +258,23 @@ class Program
         {
             Console.WriteLine("\n----------------------------------------------------------");
         }
+
+
+
+
+
+        // serialize JSON to a string and then write string to a file
+        //File.WriteAllText(@"/expenseClaims.json", JsonConvert.SerializeObject(expenseClaim));
+
+        // serialize JSON directly to a file
+        /*using (StreamWriter file = File.CreateText(@"\expenseClaims.json"))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(file, expenseClaim);
+        }*/
+
+
+
 
 
 

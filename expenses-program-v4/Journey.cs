@@ -24,7 +24,9 @@ internal class Journey
 
     public Journey()
     {
+        // increment count for number of instances
         ++journeyCount;
+        //assign count to object field
         this.journeyId = journeyCount;
 
 
