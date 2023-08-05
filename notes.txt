@@ -1,0 +1,38 @@
+
+
+
+    // Print the receipt details
+    Console.WriteLine("\n\n---------------------------Receipt Details-------------------------------\n");
+            foreach (var detail in receiptDetails)
+            {
+                Console.WriteLine(detail);
+            }
+
+            // Calculate and print the total cost of the expense claim
+            Console.WriteLine("\nTotal cost of the expense claim: " + GetTotalCost());
+
+            // Calculate and print the tax that can be reclaimed by the company (20% of the total cost)
+            Console.WriteLine("Tax that can be reclaimed by the company: " + GetTotalCost() * 0.2);
+
+            // Calculate and print the amount that will need to be paid to the employee (total cost minus non-refundable amount)
+            Console.WriteLine("Amount that will need to be paid to the employee: " + (GetTotalCost() - GetNonRefundable()));
+
+            // Calculate and print the average payment required (total cost divided by 2, since the employee is awarded 100% of the travel cost)
+            Console.WriteLine("Average payment required: " + GetTotalCost() / 2);
+
+            // Calculate and print the largest payment made (whichever is greater: the travel cost or the expense cost minus the £50 limit)
+            double largestPayment = expenseCost - 50 > travelCost ? expenseCost - 50 : travelCost;
+            Console.WriteLine("Largest payment made: " + largestPayment);
+            Console.WriteLine("\n-------------------------------------------------------------------------\n");
+
+
+
+   
+    }
+
+
+
+
+
+}
+
