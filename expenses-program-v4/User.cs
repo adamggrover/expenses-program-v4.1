@@ -10,7 +10,7 @@ internal class User
 
     // Fields
     static int userCount = 0;
-    
+    static  public string[] loginChoices = { "Login with existing account", "Create new User" };
 
     private string username;
     private string password;

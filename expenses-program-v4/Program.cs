@@ -6,37 +6,44 @@ using Newtonsoft.Json;
 
 class Program
 
-{  
-    static bool isLoggedIn = false;
-    static int currentUserId = 0;
-    static List<User> Users = new List<User>();
-    static string loginChoice = "";
-    static bool validInput = false;
-    static public string[] loginChoices = { "Login with existing account", "Create new User" };
+{
 
 
-    // Methods
 
-    static void LoginMenu()
+    static void Main(string[] args)
+
     {
-        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
 
-        // Loop through until user is logged in
 
+
+        List<User> users = new List<User>();
+
+        int currentUserId = 0;
+
+
+
+        Console.Write("\n---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
+
+        // Initialise variable 
+        bool isLoggedIn = false;
+
+        // Loop through all the time the user isn't logged in
         while (!isLoggedIn)
         {
             Console.Write("\nPlease make a selection:\n\n");
 
-            // Ask the user to select from the login choices menu
+            // Ask the user to select the claim type from the available choices
 
-            for (int i = 0; i < loginChoices.Length; i++)
+            for (int i = 0; i < User.loginChoices.Length; i++)
             {
-                Console.WriteLine(i + 1 + ") " + loginChoices[i]);
+                Console.WriteLine(i + 1 + ") " + User.loginChoices[i]);
 
             }
 
-           
-            // Check if user selection is valid or not
+            string loginChoice = "";
+
+            bool validInput = false;
+
 
             while (validInput == false)
             {
@@ -47,7 +54,7 @@ class Program
                     int loginChoiceIndex = int.Parse(Console.ReadLine()) - 1;
 
                     // Assign user selected claim type to expense claim object field
-                    loginChoice = loginChoices[loginChoiceIndex];
+                    loginChoice = User.loginChoices[loginChoiceIndex];
 
                     validInput = true;
 
@@ -61,13 +68,34 @@ class Program
 
             }
 
+            // Add some sample users to the list
+            users.Add(new User("employee1", "password1", false));
+            users.Add(new User("admin1", "password2", true));
 
 
 
             if (loginChoice == "Create new User")
             {
-                CreateNewUser();
+                Console.Clear();
+                Console.WriteLine("-------------Create New User---------------\n");
+                // Prompt the user to enter details for the new user
+                Console.Write("Enter a username: ");
+                string newUsername = Console.ReadLine();
 
+                Console.Write("Enter a password: ");
+                string newPassword = Console.ReadLine();
+
+                Console.Write("Is this user an admin (y/n)? ");
+                bool isAdmin = Console.ReadLine().ToLower() == "y";
+
+                // Create a new User object and add it to the list
+                User newUser = new User(newUsername, newPassword, isAdmin);
+                users.Add(newUser);
+
+                Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
+
+                // Assign current user id to variable
+                currentUserId = newUser.GetUserId();
             }
 
             // Prompt the user to enter their username and password
@@ -80,7 +108,7 @@ class Program
             string password = Console.ReadLine();
 
             // Loop through existing users to check for a match
-            foreach (User user in Users)
+            foreach (User user in users)
             {
                 if (user.GetUsername() == username && user.GetPassword() == password)
                 {
@@ -108,56 +136,6 @@ class Program
             }
 
         }
-    }
-
-    static void CreateNewUser()
-    {
-        Console.Clear();
-        Console.WriteLine("-------------Create New User---------------\n");
-        // Prompt the user to enter details for the new user
-        Console.Write("Enter a username: ");
-        string newUsername = Console.ReadLine();
-
-        Console.Write("Enter a password: ");
-        string newPassword = Console.ReadLine();
-
-        Console.Write("Is this user an admin (y/n)? ");
-        bool isAdmin = Console.ReadLine().ToLower() == "y";
-
-        // Create a new User object and add it to the list
-        User newUser = new User(newUsername, newPassword, isAdmin);
-        Users.Add(newUser);
-
-        Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
-
-        // Assign current user id to variable
-        currentUserId = newUser.GetUserId();
-    }
-
-
-
-
-
-    static void Main(string[] args)
-
-    {
-
-        // Create list for user objects
-
-        List<User> users = new List<User>();
-
-
-        // Add some sample users to the list
-        users.Add(new User("employee1", "password1", false));
-        users.Add(new User("admin1", "password2", true));
-
-
-        
-
-        LoginMenu();
-
-
-
 
 
         if (users[currentUserId - 1].IsAdmin())
