@@ -7,25 +7,23 @@ using Newtonsoft.Json;
 class Program
 
 {
+    // Fields
+    static int currentUserId = 0;
+    static List<User> users = new List<User>();
+    static bool isLoggedIn = false;
+    static string loginChoice = "";
+    static bool validInput = false;
+    static int loginChoiceIndex = 0;
 
+    // Methods
 
-
-    static void Main(string[] args)
-
+    static void LoginOptions()
     {
 
-
-
-        List<User> users = new List<User>();
-
-        int currentUserId = 0;
+        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
 
 
 
-        Console.Write("\n---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
-
-        // Initialise variable 
-        bool isLoggedIn = false;
 
         // Loop through all the time the user isn't logged in
         while (!isLoggedIn)
@@ -40,9 +38,7 @@ class Program
 
             }
 
-            string loginChoice = "";
 
-            bool validInput = false;
 
 
             while (validInput == false)
@@ -51,7 +47,7 @@ class Program
                 try
                 {
                     // Parse user selected index to local variable
-                    int loginChoiceIndex = int.Parse(Console.ReadLine()) - 1;
+                    loginChoiceIndex = int.Parse(Console.ReadLine()) - 1;
 
                     // Assign user selected claim type to expense claim object field
                     loginChoice = User.loginChoices[loginChoiceIndex];
@@ -68,81 +64,138 @@ class Program
 
             }
 
-            // Add some sample users to the list
-            users.Add(new User("employee1", "password1", false));
-            users.Add(new User("admin1", "password2", true));
-
-
-
             if (loginChoice == "Create new User")
             {
-                Console.Clear();
-                Console.WriteLine("-------------Create New User---------------\n");
-                // Prompt the user to enter details for the new user
-                Console.Write("Enter a username: ");
-                string newUsername = Console.ReadLine();
+                CreateNewUser();
+            }
 
-                Console.Write("Enter a password: ");
-                string newPassword = Console.ReadLine();
 
-                Console.Write("Is this user an admin (y/n)? ");
-                bool isAdmin = Console.ReadLine().ToLower() == "y";
+            Login();
 
-                // Create a new User object and add it to the list
-                User newUser = new User(newUsername, newPassword, isAdmin);
-                users.Add(newUser);
 
-                Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
+
+
+
+
+        }
+    }
+
+    static void CreateNewUser()
+    {
+        Console.Clear();
+        Console.WriteLine("-------------Create New User---------------\n");
+        // Prompt the user to enter details for the new user
+        Console.Write("Enter a username: ");
+        string newUsername = Console.ReadLine();
+
+        Console.Write("Enter a password: ");
+        string newPassword = Console.ReadLine();
+
+        Console.Write("Is this user an admin (y/n)? ");
+        bool isAdmin = Console.ReadLine().ToLower() == "y";
+
+        // Create a new User object and add it to the list
+        User newUser = new User(newUsername, newPassword, isAdmin);
+        users.Add(newUser);
+
+        Console.WriteLine("Hi " + newUser.GetUsername() + ". New user created successfully.");
+
+        // Assign current user id to variable
+        currentUserId = newUser.GetUserId();
+    }
+
+    static void Login()
+    {
+
+        // Create new User objects and add it to the list
+        User User1 = new User("john", "password123", false);
+        users.Add(User1);
+        User User2 = new User("sarah", "puppies", true);
+        users.Add(User2);
+
+        // Prompt the user to enter their username and password
+        Console.Clear();
+        Console.WriteLine("-------------Login---------------\n");
+        Console.Write("Username: ");
+        string username = Console.ReadLine();
+
+        Console.Write("Password: ");
+        string password = Console.ReadLine();
+
+        // Loop through existing users to check for a match
+        foreach (User user in users)
+        {
+            if (user.GetUsername() == username && user.GetPassword() == password)
+            {
+                isLoggedIn = true;
 
                 // Assign current user id to variable
-                currentUserId = newUser.GetUserId();
-            }
+                currentUserId = user.GetUserId();
 
-            // Prompt the user to enter their username and password
-            Console.Clear();
-            Console.WriteLine("-------------Login---------------\n");
-            Console.Write("Username: ");
-            string username = Console.ReadLine();
-
-            Console.Write("Password: ");
-            string password = Console.ReadLine();
-
-            // Loop through existing users to check for a match
-            foreach (User user in users)
-            {
-                if (user.GetUsername() == username && user.GetPassword() == password)
+                if (user.IsAdmin())
                 {
-                    isLoggedIn = true;
-
-                    // Assign current user id to variable
-                    currentUserId = user.GetUserId();
-
-                    if (user.IsAdmin())
-                    {
-                        Console.WriteLine("Login successful (admin)");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Login successful (employee)");
-                    }
-
-                    break;
+                    Console.WriteLine("Login successful (admin)");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                 }
-            }
+                else
+                {
+                    Console.WriteLine("Login successful (employee)");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                }
 
-            if (!isLoggedIn)
-            {
-                Console.WriteLine("Login failed\n");
-            }
+                if (users[currentUserId - 1].IsAdmin())
+                {
+                    AdminMenu();
+                }
+                else
+                {
+                    EmployeeMenu();
+                }
 
+
+            }
         }
 
-
-        if (users[currentUserId - 1].IsAdmin())
+        if (!isLoggedIn)
         {
-            Console.Clear();
-            Console.WriteLine("---------------Admin Menu------------------");
+            Console.WriteLine("\nLogin failed\n");
+            Console.WriteLine("Press any key to try again");
+            Console.ReadKey();
         }
+
+
+
+
+    }
+
+    static void AdminMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("---------------Admin Menu------------------");
+    }
+
+    static void EmployeeMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("---------------Employee Menu------------------");
+    }
+
+
+    static void Main(string[] args)
+
+    {
+
+        LoginOptions();
+
+
+
+
+
+
+
+
 
      
 
