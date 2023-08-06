@@ -20,14 +20,7 @@ class Program
     static void LoginOptions()
     {
 
-        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
 
-
-
-
-        // Loop through all the time the user isn't logged in
-        while (!isLoggedIn)
-        {
             Console.Write("\nPlease make a selection:\n\n");
 
             // Ask the user to select the claim type from the available choices
@@ -64,20 +57,14 @@ class Program
 
             }
 
-            if (loginChoice == "Create new User")
-            {
-                CreateNewUser();
-            }
-
-
-            Login();
 
 
 
 
 
 
-        }
+
+        
     }
 
     static void CreateNewUser()
@@ -187,7 +174,23 @@ class Program
 
     {
 
-        LoginOptions();
+        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
+
+
+        // Loop through while the user isn't logged in
+        while (!isLoggedIn)
+
+        {
+            LoginOptions();
+
+            if (loginChoice == "Create new User")
+            {
+                CreateNewUser();
+            }
+
+            Login();
+
+        }
 
 
 
@@ -197,11 +200,13 @@ class Program
 
 
 
-     
 
 
-        // Create a list of the ExpenseClaim objects
-        List<ExpenseClaim> Expenseclaims = new List<ExpenseClaim>();
+
+
+
+    // Create a list of the ExpenseClaim objects
+    List<ExpenseClaim> Expenseclaims = new List<ExpenseClaim>();
 
         // Create a new instance of the ExpenseClaim class
         ExpenseClaim expenseClaim = new ExpenseClaim();
