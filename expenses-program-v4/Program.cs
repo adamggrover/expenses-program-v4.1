@@ -10,10 +10,16 @@ class Program
     // Fields
     static int currentUserId = 0;
     static List<User> users = new List<User>();
+    static List<ExpenseClaim> Expenseclaims = new List<ExpenseClaim>();
     static bool isLoggedIn = false;
     static string loginChoice = "";
     static bool validInput = false;
     static int loginChoiceIndex = 0;
+    static string[] employeeMenuChoices = { "Enter a New Expense Claim", "Logout" };
+    static string[] adminMenuChoices = { "Enter a New Expense Claim", "Logout" };
+    static int adminMenuChoiceIndex = 0;
+
+
 
     // Methods
 
@@ -57,15 +63,9 @@ class Program
 
             }
 
-
-
-
-
-
-
-
         
     }
+
 
     static void CreateNewUser()
     {
@@ -90,6 +90,7 @@ class Program
         // Assign current user id to variable
         currentUserId = newUser.GetUserId();
     }
+
 
     static void Login()
     {
@@ -121,13 +122,13 @@ class Program
 
                 if (user.IsAdmin())
                 {
-                    Console.WriteLine("Login successful (admin)");
+                    Console.WriteLine("\nLogin successful (admin)");
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                 }
                 else
                 {
-                    Console.WriteLine("Login successful (employee)");
+                    Console.WriteLine("\nLogin successful (employee)");
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                 }
@@ -151,17 +152,67 @@ class Program
             Console.WriteLine("Press any key to try again");
             Console.ReadKey();
         }
-
-
-
-
     }
+
+
 
     static void AdminMenu()
     {
         Console.Clear();
         Console.WriteLine("---------------Admin Menu------------------");
+
+        Console.Write("\nPlease make a selection:\n\n");
+
+        // Ask the user to select the menu from the available choices
+
+        for (int i = 0; i < adminMenuChoices.Length; i++)
+        {
+            Console.WriteLine(i + 1 + ") " + adminMenuChoices[i]);
+
+        }
+
+        validInput = false;
+
+        while (validInput == false)
+        {
+
+            try
+            {
+                // Parse user selected index to local variable
+                adminMenuChoiceIndex = int.Parse(Console.ReadLine()) - 1;
+
+
+
+                validInput = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Invalid selection. Please try again");
+
+            }
+
+            switch (adminMenuChoiceIndex)
+            {
+                case 0:
+                    NewExpenseClaim();
+                    break;
+                case 1:
+                    Console.WriteLine("\nYou have now logged out");
+                    Console.WriteLine("\nPress any key to login");
+                    Console.ReadKey();
+                    Login();
+                    break;
+                default:
+                    Login();
+                    break;
+            }
+
+
+
+        }
     }
+
 
     static void EmployeeMenu()
     {
@@ -169,50 +220,13 @@ class Program
         Console.WriteLine("---------------Employee Menu------------------");
     }
 
-
-    static void Main(string[] args)
-
+    static void NewExpenseClaim()
     {
-
-        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
-
-
-        // Loop through while the user isn't logged in
-        while (!isLoggedIn)
-
-        {
-            LoginOptions();
-
-            if (loginChoice == "Create new User")
-            {
-                CreateNewUser();
-            }
-
-            Login();
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Create a list of the ExpenseClaim objects
-    List<ExpenseClaim> Expenseclaims = new List<ExpenseClaim>();
-
         // Create a new instance of the ExpenseClaim class
         ExpenseClaim expenseClaim = new ExpenseClaim();
 
         // Print Title of program to console
-        
+
         Console.Write("\n---------------------NEW EXPENSE CLAIM---------------------\n\n");
 
 
@@ -264,17 +278,11 @@ class Program
 
             }
 
-
-
-
-
             // Add current journey instance to the list of journeys
             expenseClaim.GetJourneysList().Add(journey);
 
-
-            
-
         }
+
 
         // Print current expense claim receipt details
 
@@ -317,7 +325,30 @@ class Program
             Console.WriteLine("\n----------------------------------------------------------");
         }
 
+    }
 
+
+    static void Main(string[] args)
+
+    {
+
+        Console.Write("---------------------EXPENSE CLAIM PROGRAM---------------------\n\n");
+
+
+        // Loop through while the user isn't logged in
+        while (!isLoggedIn)
+
+        {
+            LoginOptions();
+
+            if (loginChoice == "Create new User")
+            {
+                CreateNewUser();
+            }
+
+            Login();
+
+        }
 
 
 
