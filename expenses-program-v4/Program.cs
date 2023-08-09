@@ -16,8 +16,9 @@ class Program
     static bool validInput = false;
     static int loginChoiceIndex = 0;
     static string[] employeeMenuChoices = { "Enter a New Expense Claim", "Logout" };
-    static string[] adminMenuChoices = { "Enter a New Expense Claim", "Logout" };
+    static string[] adminMenuChoices = { "Largest Expense Claim Payment", "Average Expense Claim Payment" };
     static int adminMenuChoiceIndex = 0;
+    static int employeeMenuChoiceIndex = 0;
 
 
 
@@ -195,9 +196,12 @@ class Program
             switch (adminMenuChoiceIndex)
             {
                 case 0:
-                    NewExpenseClaim();
+                    LargestPayment();
                     break;
                 case 1:
+                    AveragePayment();
+                    break;
+                case 2:
                     Console.WriteLine("\nYou have now logged out");
                     Console.WriteLine("\nPress any key to login");
                     Console.ReadKey();
@@ -218,6 +222,57 @@ class Program
     {
         Console.Clear();
         Console.WriteLine("---------------Employee Menu------------------");
+
+        Console.Write("\nPlease make a selection:\n\n");
+
+        // Ask the user to select the menu from the available choices
+
+        for (int i = 0; i < employeeMenuChoices.Length; i++)
+        {
+            Console.WriteLine(i + 1 + ") " + employeeMenuChoices[i]);
+
+        }
+
+        validInput = false;
+
+        while (validInput == false)
+        {
+
+            try
+            {
+                // Parse user selected index to local variable
+                employeeMenuChoiceIndex = int.Parse(Console.ReadLine()) - 1;
+
+
+
+                validInput = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Invalid selection. Please try again");
+
+            }
+
+            switch (employeeMenuChoiceIndex)
+            {
+                case 0:
+                    NewExpenseClaim();
+                    break;
+                case 1:
+                    Console.WriteLine("\nYou have now logged out");
+                    Console.WriteLine("\nPress any key to login");
+                    Console.ReadKey();
+                    Login();
+                    break;
+                default:
+                    Login();
+                    break;
+            }
+
+
+
+        }
     }
 
     static void NewExpenseClaim()
@@ -324,6 +379,60 @@ class Program
         {
             Console.WriteLine("\n----------------------------------------------------------");
         }
+
+    }
+
+    static void LargestPayment()
+    {
+        if (Expenseclaims.Count < 1)
+        {
+            Console.WriteLine("There are currently no expense claims in the system");
+            return;
+        }
+        
+        double largestPayment = 0;
+        int largestPaymentExpenseClaimId = 0;
+
+
+        foreach (var ExpenseClaim in Expenseclaims)
+        {
+            
+
+            if (ExpenseClaim.GetTotalExpenseClaim() > largestPayment)
+            {
+                largestPayment = ExpenseClaim.GetTotalExpenseClaim();
+                largestPaymentExpenseClaimId = ExpenseClaim.GetClaimId();
+
+            }
+        }
+
+
+        Console.WriteLine("The largest payment made was £" + largestPayment + " in expense claim #" + largestPaymentExpenseClaimId);
+        
+
+        
+        
+    }
+
+
+    static double AveragePayment()
+    {
+
+        double averagePayment = 0;  
+
+
+        foreach (var ExpenseClaim in Expenseclaims)
+        {
+
+
+            double totalPayments =+ ExpenseClaim.GetTotalExpenseClaim();
+            int totalExpenseClaims = Expenseclaims[0].GetClaimId();
+
+            averagePayment = totalPayments / totalExpenseClaims;
+        }
+
+        return averagePayment;
+        
 
     }
 

@@ -166,6 +166,7 @@ internal class ExpenseClaim
     }
 
 
+
     //---------Receipt Details--------------------------------------------------------------------------------------------------------//
 
     // Method to generate the receipt details as a list of strings
